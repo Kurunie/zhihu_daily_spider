@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from spiderdata import html_downloader, html_harser, url_manager
+from spiderdata.models import Content
 # 爬取知乎日报瞎扯内容
 
 
@@ -17,6 +18,8 @@ class Spider:
         while self.urls.has_url():
             try:
                 url = self.urls.get_url()
+                if Content.objects.filter(urls=url).exists():
+                    continue
                 cont_2 = self.downloader.download(url)
                 temp = self.harser.cont_harse(cont_2, url)
                 list.append(temp)

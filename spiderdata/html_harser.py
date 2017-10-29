@@ -1,15 +1,9 @@
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 import re
-import pymysql.cursors
+from spiderdata.models import Content
 
 class Harser:
-    # def __init__(self):
-        # self.urls = ''
-        # self.urlques = ''
-        # self.author = ''
-        # self.ans = ''
-        # self.dict={'urls': '', 'urlques': '', 'author': '', 'ans': ''}
 
     def _get_urls(self, soup):
         urls = set()
@@ -39,22 +33,21 @@ class Harser:
     def cont_harse(self, cont, url):
         soup = BeautifulSoup(cont, 'html.parser')
         question = soup.find('div', class_="question")
-        dict = {'urls': '', 'urlques': '', 'author': '', 'ans': ''}
-        dict['urls'] = url
-        dict['urlques'] = question.h2.string
+        data = Content()
+        data.urls = url
+        data.urlques = question.h2.string
         anss = soup.find_all('div', class_="answer")
-        # self.dict['author'] = ''
-        # self.dict['ans'] = ''
+        temp1 = ""
+        temp2 = ""
         for ans in anss:
             author = ans.find('span', class_="author").get_text().rstrip('，')
             cont = ans.find('div', class_="content").get_text()
             # print(cont)
-            dict['author'] = (dict['author'] + '@@' + author) if len(dict['author']) != 0 else author
-            dict['ans'] = (dict['ans'] + '@@' + cont) if len(dict['ans']) != 0 else cont
-        # print(self.urls, self.urlques)
-        # self.link_mysql()
-        return dict
-
+            temp1 = (temp1 + '@@' + author) if len(temp1) != 0 else author
+            temp2 = (temp2 + '@@' + cont) if len(temp2) != 0 else cont
+        data.author = temp1
+        data.urlans = temp2
+        data.save()
 
     def index_harse(self, cont):
         soup = BeautifulSoup(cont, 'html.parser')

@@ -77,12 +77,8 @@ WSGI_APPLICATION = 'zhihu_daily.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'zhihu_daily',
-        'PORT': '3306',
-        'USER': 'kurunie',
-        'PASSWORD': 'snowewhite132',
-        'HOST': 'localhost',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
