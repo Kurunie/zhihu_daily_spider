@@ -9,17 +9,17 @@ from spiderdata.spider_main import Spider
 def result(request):
     r_url = 'https://daily.zhihu.com/'
     spider = Spider()
-    spider.craw(r_url)
-    res = Content.objects.all()
+    res = spider.craw(r_url)
+    # res = Content.objects.all()
     data = []
     count = 0
     for r in res:
         data.append({})
-        data[count]['url'] = r.urls
-        data[count]['name'] = r.urlques
+        data[count]['url'] = r['urls']
+        data[count]['name'] = r['urlques']
         data[count]['cont'] = []
-        temp1 = r.author.split("@@")
-        temp2 = r.urlans.split("@@")
+        temp1 = r['author'].split("@@")
+        temp2 = r['ans'].split("@@")
         for i in range(len(temp1)):
             data[count]['cont'].append([temp1[i], temp2[i]])
         count += 1
