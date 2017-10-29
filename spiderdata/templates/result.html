@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>瞎扯·如何正确地吐槽</title>
+    <link href="./static/css/style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <div id="header">
+        <h1>瞎扯·如何正确地吐槽</h1>
+    </div>
+    <div id="content">
+        {% for i in data %}
+            <div class="inner">
+                <h2><a href={{ i.url }}>{{ i.name }}</a></h2>
+                <div class="main">
+                    {% for content in i.cont %}
+                        <p>
+                        {% for c in content %}
+                             {{ c }}<br/>
+                         {% endfor %}
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+
+
