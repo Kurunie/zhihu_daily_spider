@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import HttpResponseRedirect,Http404,HttpResponse,render_to_response
-from spiderdata.models import Content
+from spiderdata.models import Content,User
 from spiderdata.spider_main import Spider
+from django.contrib import auth
 # Create your views here.
 
 
 def result(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('login/')
     r_url = 'https://daily.zhihu.com/'
     spider = Spider()
     spider.craw(r_url)
@@ -24,3 +27,4 @@ def result(request):
             data[count]['cont'].append([temp1[i], temp2[i]])
         count += 1
     return render_to_response("result.html", {'data': data})
+
